@@ -20,18 +20,32 @@ exports.createSauce = (req, res, next) => {
 
 // Modifier une sauce
 exports.modifySauce = (req, res, next) => {
-    // Si on uploade une nouvelle image
-        // On récupère les informations de la requête et on ajoute l'URL de la nouvelle image
-    // Sinon on récupère seulement les informations de la requête
-    const sauceObject = req.file ?
-        { 
-            ...JSON.parse(req.body.sauce),
-            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-        } : { ...req.body };
-    // Modifie la sauce
-    Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
-        .then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
-        .catch(error => res.status(400).json({ error }));
+    Sauce.findOne({ _id: req.params.id })
+        .then(sauce => {
+            // Si on uploade une nouvelle image
+            if (req.file) {
+                // Récupère le nom du fichier dans l'URL de l'image
+                const filename = sauce.imageUrl.split('/images/')[1];
+                // Supprime l'image correspondante
+                fs.unlink(`images/${filename}`, () => {
+                    // Récupère les informations de la requête et ajoute l'URL de la nouvelle image
+                    const sauceObject = { 
+                        ...JSON.parse(req.body.sauce),
+                        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                    }
+                    Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
+                        .then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
+                        .catch(error => res.status(400).json({ error }));
+                })
+            }
+            // Sinon, récupère seulement les informations de la requête
+            else {
+                Sauce.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+                    .then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
+                    .catch(error => res.status(400).json({ error }));
+            }
+        })
+        .catch(error => res.status(500).json({ error }));
 };
 
 // Supprimer une sauce
