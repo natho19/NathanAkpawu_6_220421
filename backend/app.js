@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+// Chemin d'accès de notre système de fichiers
 const path = require('path');
 
 const userRoutes = require('./routes/user');
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
+// Demander à express de servir le dossier statique "images" quand on fait une requête à /images
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/sauces', sauceRoutes);
