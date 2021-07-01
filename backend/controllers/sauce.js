@@ -87,7 +87,7 @@ exports.likeDislikeSauce = (req, res, next) => {
 
     Sauce.findOne({ _id: req.params.id })
         .then( sauce => {
-            // MongoDB : $inc = incrémenter, $push = insérer, $pull = enlever
+            // MongoDB: $inc = incrémenter, $push = insérer, $pull = enlever
             switch (like) {
                 // L'utilisateur veut liker la sauce
                 case 1 :
