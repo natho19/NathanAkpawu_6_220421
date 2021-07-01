@@ -12,6 +12,7 @@ exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({
+                // Masque le mot de passe
                 email: maskdata.maskEmail2(req.body.email),
                 password: hash
             });
