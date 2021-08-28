@@ -80,7 +80,7 @@ exports.getAllSauces = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
-// J'aime, je n'ai pas et annuler j'aime ou je n'aime pas
+// J'aime, je n'aime pas et annuler j'aime ou je n'aime pas
 exports.likeDislikeSauce = (req, res, next) => {
     const userId = req.body.userId;
     const like = req.body.like;
@@ -102,7 +102,7 @@ exports.likeDislikeSauce = (req, res, next) => {
                     break;
                 // L'utilisateur veut annuler son like ou dislike
                 case 0 : 
-                    // Si l'utilisateur se trouve dans le tableau des likeurs, il peut annuler son like
+                    // Si l'utilisateur se trouve dans le tableau des likes, il peut annuler son like
                     if (sauce.usersLiked.includes(userId)) {
                         Sauce.updateOne({ _id: req.params.id }, { $inc: {likes: -1}, $pull: {usersLiked: userId}, _id: req.params.id })
                             .then(() => {
@@ -110,7 +110,7 @@ exports.likeDislikeSauce = (req, res, next) => {
                             })
                             .catch(error => res.status(400).json({ error }));
                     }
-                    // Sinon si l'utilisateur se trouve dans le tableau des dislikeurs, il peut annuler son dislike
+                    // Sinon si l'utilisateur se trouve dans le tableau des dislikes, il peut annuler son dislike
                     else if (sauce.usersDisliked.includes(userId)) {
                         Sauce.updateOne({ _id: req.params.id }, { $inc: {dislikes: -1}, $pull: {usersDisliked: userId}, _id: req.params.id })
                         .then(() => {
