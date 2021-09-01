@@ -5,11 +5,11 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const User = require('../models/User');
-const passwordValidator = require('./password');
 
 exports.signup = (req, res, next) => {
     // Valider le mot de passe
-    if (passwordValidator.passwordCheck(req.body.password)) {
+    var regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+    if (regex.test(req.body.password)) {
         // Crypte le mot de passe en faisant 10 tours
         bcrypt.hash(req.body.password, 10)
             .then(hash => {
@@ -24,7 +24,7 @@ exports.signup = (req, res, next) => {
             })
             .catch(error => res.status(500).json({ error }));
     } else {
-        return res.status(401).json({ message: 'Le mot de passe doit contenir au moins 6 caractères, un nombre, une minuscule, et une majuscule' });
+        return res.status(401).json({ message: 'Le mot de passe doit contenir au moins 8 caractères, un nombre, une minuscule, et une majuscule' });
     }
 };
 
