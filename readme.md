@@ -2,6 +2,19 @@
 Projet 6 du parcours développeur web d'OpenClassrooms : Construisez une API sécurisée pour une application
 d'avis gastronomiques
 
+## Objectifs attendus
+- L'API doit utiliser des pratiques de **code sécurisées**
+- Les données personnelles des utilisateurs doivent impérativement être **protégées**, que ce soit côté API ou côté base de données grâce à des **méthodes de masquage**
+- **L'authentification** doit être **renforcée** sur les routes requises
+- L'API doit respecter le **RGPD** et les standards **OWASP**
+- **2 types de droits administrateur** à la base de données doivent être définis : un accès
+pour supprimer ou modifier des tables, et un accès pour éditer le contenu de la base de données
+- La base de données utilisée devra être **MongoDB**
+- Toutes les erreurs de la base de données doivent être signalées grâce à **Mongoose**
+- L'API doit **parfaitement fonctionner** avec le frontend
+- Les adresses emails de la base de données doivent être **uniques**
+- Toutes les routes relatives à la sauce doivent exiger une demande authentifiée par **token**
+
 ## Compétences évaluées
 - Implémenter un modèle logique de données conformément à la réglementation
 - Mettre en œuvre des opérations CRUD de manière sécurisée
@@ -33,7 +46,7 @@ Ensuite, installer les composants du projet.
 ```
 > npm install
 ```
-Enfin, démarrer `ng serve` pour avoir accès au serveur de développement. Rendez-vous sur `http://localhost:4200/`. L'application va se recharger automatiquement si vous modifiez un fichier source.
+Enfin, démarrer `ng serve` pour avoir accès au serveur de développement. Rendez-vous sur `http://localhost:4200/`.
 ```
 > ng serve
 ```
